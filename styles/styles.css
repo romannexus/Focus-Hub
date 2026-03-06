@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --white: #ffffff;
+  --primary-blue: #0ea5e9;
+  --dark-blue: #0284c7;
+  --text-gray: #4b5563;
+  --bg-gray: #f3f4f6;
+}
+body {
+  background: linear-gradient(#f59f67, #353f76);
+  font-family: "Roboto Flex", sans-serif;
+  animation: fadeIn 0.5s ease-out;
+}
+/* @keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+
+@layer components {
+  form input {
+    @apply rounded-[15px] mb-3 mt-1 p-2.5 text-sm;
+  }
+  .input {
+    @apply border border-gray-300 outline-none transition-colors duration-300 ease-in-out;
+  }
+  .input:focus {
+    @apply border-(--primary-blue) bg-(--bg-gray);
+  }
+}

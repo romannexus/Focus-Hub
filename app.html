@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Hub | Personal Dashboard</title>
+
+    <link rel="stylesheet" href="./styles/styles.css" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- prettier-ignore -->
+    <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script type="module" src="./script/app.js" defer></script>
+  </head>
+  <body
+    class="m-0 bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col antialiased selection:bg-blue-200"
+  >
+    <!-- Header -->
+    <header
+      class="flex items-center justify-between px-6 py-4 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.03)] border-b border-gray-100 sticky top-0 z-10"
+    >
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img
+          src="/img/focus-hub-high-resolution-logo-grayscale-transparent.png"
+          width="100"
+        />
+      </div>
+
+      <!-- Цитата дня -->
+      <div class="hidden md:block text-gray-500 italic text-[14px]">
+        "Focus on what matters. The rest can wait."
+      </div>
+
+      <!-- Кнопка Вийти -->
+      <div class="text-[14px]">
+        <a
+          class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors"
+          href="#"
+          id="btn-sign-out"
+          >Sign out</a
+        >
+      </div>
+    </header>
+
+    <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- Main Content -->
+    <main
+      class="flex-1 w-full max-w-7xl mx-auto py-10 px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8"
+    >
+      <!-- Left Column (Focus & Atmosphere) -->
+      <div class="lg:col-span-7 flex flex-col gap-6 md:gap-8">
+        <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- 1. Pomodoro Timer -->
+        <section
+          class="flex flex-col items-center justify-center py-12 px-5 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 relative"
+        >
+          <h1
+            class="text-xl mt-0 mb-6 font-bold font-condensed text-gray-600 uppercase tracking-wider"
+          >
+            Focus Session
+          </h1>
+
+          <!-- Time -->
+          <div
+            class="text-8xl md:text-9xl font-bold font-condensed text-gray-900 mb-10 tracking-tight select-none"
+          >
+            25:00
+          </div>
+
+          <!-- Timer Controls -->
+          <div class="flex items-center gap-3">
+            <button
+              class="text-white bg-blue-600 border-none font-bold hover:bg-blue-800 cursor-pointer px-10 py-3.5 rounded-[10px] text-[16px] transition-colors shadow-sm"
+            >
+              Start
+            </button>
+            <button
+              class="text-gray-700 bg-gray-100 border-none font-bold hover:bg-gray-200 cursor-pointer px-8 py-3.5 rounded-[10px] text-[16px] transition-colors"
+            >
+              Pause
+            </button>
+            <!-- Reset Button -->
+            <button
+              class="text-gray-500 bg-white border border-gray-300 font-bold hover:bg-gray-50 hover:text-gray-800 cursor-pointer p-3.5 rounded-[10px] transition-colors flex items-center justify-center"
+              title="Reset"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </section>
+        <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- 2. Lofi / Ambient Sounds -->
+        <section
+          class="py-8 px-6 md:px-8 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100"
+        >
+          <div class="flex items-center justify-between mb-6">
+            <h2
+              class="text-lg font-bold font-condensed text-gray-600 uppercase tracking-wider"
+            >
+              Atmosphere
+            </h2>
+
+            <!-- Mini Player -->
+            <div class="flex items-center gap-4">
+              <button
+                class="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-[10px] transition-colors cursor-pointer border border-blue-100"
+              >
+                <svg
+                  class="w-5 h-5 ml-0.5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                class="w-24 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600 outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Sound Buttons -->
+          <div class="grid grid-cols-3 gap-4">
+            <!-- Inactive -->
+            <button
+              class="flex flex-col items-center justify-center p-4 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-[10px] transition-all cursor-pointer group"
+            >
+              <span
+                class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
+                >🌧️</span
+              >
+              <span
+                class="text-[14px] font-bold text-gray-500 group-hover:text-blue-600"
+                >Rain</span
+              >
+            </button>
+            <!-- Active (Cafe) -->
+            <button
+              class="flex flex-col items-center justify-center p-4 bg-blue-50 border border-blue-400 rounded-[10px] transition-all cursor-pointer group shadow-sm"
+            >
+              <span
+                class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
+                >☕</span
+              >
+              <span class="text-[14px] font-bold text-blue-700">Cafe</span>
+            </button>
+            <!-- Inactive -->
+            <button
+              class="flex flex-col items-center justify-center p-4 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-[10px] transition-all cursor-pointer group"
+            >
+              <span
+                class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
+                >🌲</span
+              >
+              <span
+                class="text-[14px] font-bold text-gray-500 group-hover:text-blue-600"
+                >Forest</span
+              >
+            </button>
+          </div>
+        </section>
+
+        <!-- 3. Statistics -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+          <section
+            class="py-6 px-8 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center"
+          >
+            <h3 class="text-gray-500 text-[14px] font-bold mb-1">
+              Completed Tasks
+            </h3>
+            <div
+              class="text-4xl font-bold font-condensed text-gray-900 flex items-baseline gap-2"
+            >
+              5
+              <span
+                class="text-[14px] font-normal font-sans text-green-600 flex items-center gap-0.5"
+                ><svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 10l7-7m0 0l7 7m-7-7v18"
+                  ></path>
+                </svg>
+                2</span
+              >
+            </div>
+          </section>
+          <section
+            class="py-6 px-8 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center"
+          >
+            <h3 class="text-gray-500 text-[14px] font-bold mb-1">
+              Time in Focus
+            </h3>
+            <div class="text-4xl font-bold font-condensed text-gray-900">
+              2 hrs
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- Right Column (Tasks) -->
+      <div class="lg:col-span-5 flex flex-col">
+        <section
+          class="py-8 px-5 md:px-8 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 flex-1 flex flex-col h-full"
+        >
+          <h1 class="text-xl mt-0 mb-6 font-bold font-condensed text-gray-800">
+            Today's Plan
+          </h1>
+
+          <!-- Add Task Form -->
+          <form class="flex flex-col sm:flex-row gap-3 mb-8 w-full">
+            <input
+              id="add-text"
+              type="text"
+              placeholder="What are you working on?"
+              class="flex-1 border border-gray-300 rounded-[10px] px-4 py-3 text-[16px] text-gray-800 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all bg-gray-50 focus:bg-white m-0"
+            />
+            <input
+              id="add-btn"
+              type="submit"
+              value="Add"
+              class="text-white bg-blue-600 border-none font-bold hover:bg-blue-800 cursor-pointer px-6 py-3 rounded-[10px] text-[16px] transition-colors m-0 sm:w-auto w-full"
+            />
+          </form>
+
+          <!-- To-Do List -->
+          <ul id="task-list" class="flex flex-col gap-3 p-0 m-0 list-none"></ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

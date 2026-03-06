@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <!-- prettier-ignore -->
+    <link rel="stylesheet"href="https://fontawesome.com/icons/mug-saucer?f=classic&s=solid"/>
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- prettier-ignore -->
+    <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet"/>
+
+    <script type="module" src="./script/index.js" defer></script>
+  </head>
+  <body class="m-0 h-screen flex justify-center items-center">
+    <section
+      class="flex flex-col items-center justify-center min-w-96 py-10 px-5 bg-white rounded-[20px] shadow-[0_0_5px_var(--white)]"
+    >
+      <div class="auth-image">
+        <img
+          src="/img/focus-hub-high-resolution-logo-grayscale-transparent.png"
+          alt="Website logo"
+          width="200"
+          class=""
+        />
+      </div>
+
+      <h1 class="text-xl mt-5 mb-1.5 font-bold">Login to your account</h1>
+
+      <div
+        id="error-div"
+        class="hidden min-w-72 bg-red-200 border border-red-400 rounded-[10px] text-[14px] text-red-900 p-1.5 mb-2"
+      >
+        <p id="err-text">Some text</p>
+      </div>
+
+      <form
+        id="login_form"
+        method="post"
+        class="flex flex-col justify-center min-w-72"
+      >
+        <input
+          class="input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          class="input m-0"
+          type="password"
+          name="password"
+          placeholder="Password"
+          autocomplete="off"
+          required
+        />
+        <div class="text-right p-0 mb-2.5">
+          <a
+            class="inline text-(--text-gray) no-underline text-[12px] p-1 m-0 hover:underline hover:text-(--dark-blue)"
+            href="#"
+            >Forgot password?</a
+          >
+        </div>
+        <input
+          class="text-white bg-(--primary-blue) border-none font-bold hover:bg-(--dark-blue) cursor-pointer"
+          type="submit"
+          value="Sign in"
+        />
+      </form>
+
+      <section class="alternative-login">
+        <a class="google" href="#" aria-label="Login with Google"> </a>
+        <div class="mt-2.5 text-[14px]">
+          <p class="inline-block">Don't have a account ?</p>
+          <a
+            class="text-(--primary-blue) visited:text-(--dark-blue) underline"
+            href="./register.html"
+            >Sign up</a
+          >
+        </div>
+      </section>
+    </section>
+  </body>
+</html>
