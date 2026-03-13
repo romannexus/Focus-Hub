@@ -36,7 +36,7 @@
         "Focus on what matters. The rest can wait."
       </div>
 
-      <!-- Кнопка Вийти -->
+      <!-- Exit button -->
       <div class="text-[14px]">
         <a
           class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors"
@@ -57,16 +57,45 @@
         <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
         <!-- 1. Pomodoro Timer -->
         <section
-          class="flex flex-col items-center justify-center py-12 px-5 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 relative"
+          id="timer--section"
+          class="flex flex-col items-center justify-center py-12 px-5 bg-white rounded-[20px] shadow-[0_0_15px_rgba(0,0,0,0.04)] border border-gray-100 relative transition-colors duration-500 ease-in-out"
         >
           <h1
+            id="timer--name"
             class="text-xl mt-0 mb-6 font-bold font-condensed text-gray-600 uppercase tracking-wider"
           >
             Focus Session
           </h1>
 
+          <button
+            id="timer--btn-settings"
+            class="absolute top-5 right-5 text-gray-400 bg-transparent border-none p-2 rounded-lg hover:bg-gray-50 hover:text-gray-600 cursor-pointer transition-colors duration-200"
+            aria-label="Timer Settings"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              ></path>
+            </svg>
+          </button>
+
           <!-- Time -->
           <div
+            id="timer--time-value"
             class="text-8xl md:text-9xl font-bold font-condensed text-gray-900 mb-10 tracking-tight select-none"
           >
             25:00
@@ -75,17 +104,20 @@
           <!-- Timer Controls -->
           <div class="flex items-center gap-3">
             <button
+              id="timer--btn-start"
               class="text-white bg-blue-600 border-none font-bold hover:bg-blue-800 cursor-pointer px-10 py-3.5 rounded-[10px] text-[16px] transition-colors shadow-sm"
             >
               Start
             </button>
             <button
+              id="timer--btn-pause"
               class="text-gray-700 bg-gray-100 border-none font-bold hover:bg-gray-200 cursor-pointer px-8 py-3.5 rounded-[10px] text-[16px] transition-colors"
             >
               Pause
             </button>
             <!-- Reset Button -->
             <button
+              id="timer--btn-reset"
               class="text-gray-500 bg-white border border-gray-300 font-bold hover:bg-gray-50 hover:text-gray-800 cursor-pointer p-3.5 rounded-[10px] transition-colors flex items-center justify-center"
               title="Reset"
             >
@@ -241,13 +273,13 @@
           <!-- Add Task Form -->
           <form class="flex flex-col sm:flex-row gap-3 mb-8 w-full">
             <input
-              id="add-text"
+              id="todo--task-text"
               type="text"
               placeholder="What are you working on?"
               class="flex-1 border border-gray-300 rounded-[10px] px-4 py-3 text-[16px] text-gray-800 placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all bg-gray-50 focus:bg-white m-0"
             />
             <input
-              id="add-btn"
+              id="todo--btn-add"
               type="submit"
               value="Add"
               class="text-white bg-blue-600 border-none font-bold hover:bg-blue-800 cursor-pointer px-6 py-3 rounded-[10px] text-[16px] transition-colors m-0 sm:w-auto w-full"
@@ -255,9 +287,82 @@
           </form>
 
           <!-- To-Do List -->
-          <ul id="task-list" class="flex flex-col gap-3 p-0 m-0 list-none"></ul>
+          <ul
+            id="todo--list"
+            class="flex flex-col gap-3 p-0 m-0 list-none overflow-x-hidden"
+          ></ul>
         </section>
       </div>
     </main>
+    <!-- //////////////////////////////////////////// modal -->
+    <div
+      id="modal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        id="modal-backdrop"
+        class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity"
+      ></div>
+
+      <div
+        class="relative bg-white rounded-[20px] shadow-2xl w-full max-w-sm p-6 transform transition-all"
+      >
+        <h2
+          class="text-xl font-bold font-condensed text-gray-800 uppercase tracking-wider mb-4 border-b border-gray-100 pb-3"
+        >
+          Timer Settings
+        </h2>
+        <p
+          id="modal--error-text"
+          class="text-red-700 text-sm font-bold text-center mb-2 hidden"
+        >
+          kiko
+        </p>
+        <div class="flex flex-col gap-5 mb-8">
+          <div class="flex items-center justify-between">
+            <label class="text-[16px] font-bold text-gray-600"
+              >Focus (min)</label
+            >
+            <input
+              id="modal--input-focus-time"
+              type="number"
+              min="1"
+              max="90"
+              value="25"
+              class="w-20 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-center text-gray-800 font-bold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="text-[16px] font-bold text-gray-600"
+              >Short Break (min)</label
+            >
+            <input
+              id="modal--input-break-time"
+              type="number"
+              min="1"
+              max="30"
+              value="5"
+              class="w-20 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-center text-gray-800 font-bold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <button
+            id="modal--btn-cancel"
+            class="px-5 py-2.5 rounded-[10px] text-gray-600 bg-gray-100 hover:bg-gray-200 font-bold transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            id="modal--btn-save"
+            class="px-5 py-2.5 rounded-[10px] text-white bg-blue-600 hover:bg-blue-800 font-bold transition-colors shadow-sm"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,7 +1,8 @@
 "use strict";
 
 import * as model from "./models/model.js";
-import AppView from "./views/AppView.js";
+import ToDoView from "./views/ToDoView.js";
+import TimerView from "./views/TimerView.js";
 
 const controlSignOut = async function () {
   try {
@@ -20,7 +21,7 @@ const controlAddTask = async function (taskText) {
     const newTask = await model.uploadTask(taskText);
 
     //draw task with id
-    AppView.renderTask(newTask);
+    ToDoView.renderTask(newTask);
   } catch (err) {
     console.error("Error when adding task", err);
   }
@@ -41,26 +42,65 @@ const controlDeleteTask = async function (id) {
     console.error(err);
   }
 };
+///////////////////////////////////////////////////////////////////////////////////
+const controlStartTimer = function () {
+  model.startTimer(
+    (timeLeft) => {
+      TimerView.updateTimerText(TimerView.formatTime(timeLeft));
+    },
+    (timeLeft, isFocused) => {
+      setTimeout(() => {
+        TimerView.updateTimerText(TimerView.formatTime(timeLeft));
+        TimerView.switchModeUI(isFocused);
+      }, 1000);
+    },
+  );
+};
+const controlPauseTimer = function () {
+  model.pauseTimer();
+};
+const controlResetTimer = function () {
+  const { time, isFocused } = model.resetTimer();
+  TimerView.updateTimerText(TimerView.formatTime(time));
+  TimerView.switchModeUI(isFocused);
+};
+const controlSaveSettings = function (focusTime, breakTime) {
+  try {
+    const { time, isFocused } = model.updateSettings(focusTime, breakTime);
+    TimerView.updateTimerText(TimerView.formatTime(time));
+    TimerView.switchModeUI(isFocused);
 
+    TimerView.removeErrTxt();
+    return true;
+  } catch (err) {
+    TimerView.renderErrTxt(err);
+    return false;
+  }
+};
+///////////////////////////////////////////////////////////////////////////////////
 const initApp = async function () {
   try {
     //checks if there is user and he is logged in
     await model.checkUserAuth();
     //spinner before tasks
-    AppView.renderSpinner();
+    ToDoView.renderSpinner();
     //loading all tasks this user has
     const data = await model.loadTasks();
     //delete spinner
-    AppView.clear();
+    ToDoView.clear();
     //rendering all tasks
-    data.forEach((t) => AppView.renderTask(t));
+    data.forEach((t) => ToDoView.renderTask(t));
   } catch (err) {
     window.location.replace("./index.html");
   }
 };
+TimerView.addHandlerStart(controlStartTimer);
+TimerView.addHandlerPause(controlPauseTimer);
+TimerView.addHandlerReset(controlResetTimer);
+TimerView.addHandlerSaveSettings(controlSaveSettings);
 
-AppView.addHandlerAddTask(controlAddTask);
-AppView.addHandlerToggleTask(controlToggleTask);
-AppView.addHandlerDeleteTask(controlDeleteTask);
-AppView.addHandlerSignOut(controlSignOut);
+ToDoView.addHandlerAddTask(controlAddTask);
+ToDoView.addHandlerToggleTask(controlToggleTask);
+ToDoView.addHandlerDeleteTask(controlDeleteTask);
+ToDoView.addHandlerSignOut(controlSignOut);
 initApp();
