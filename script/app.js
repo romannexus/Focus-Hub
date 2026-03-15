@@ -3,6 +3,8 @@
 import * as model from "./models/model.js";
 import ToDoView from "./views/ToDoView.js";
 import TimerView from "./views/TimerView.js";
+import QuotesView from "./views/QuotesView.js";
+import MusicPlayerView from "./views/MusicPlayerView.js";
 
 const controlSignOut = async function () {
   try {
@@ -14,7 +16,16 @@ const controlSignOut = async function () {
     console.error("Falied to logout", err);
   }
 };
-
+///////////////////////////////////////////////////////////////////////
+const controlLoadQoute = async function () {
+  try {
+    const quote = await model.loadRandomQuote();
+    QuotesView.renderQuote(quote);
+  } catch (err) {
+    console.error("Failed to load a quote", err);
+  }
+};
+// ////////////////////////////////////////////////////////////////////
 const controlAddTask = async function (taskText) {
   try {
     //get task from supa table with id
@@ -78,6 +89,19 @@ const controlSaveSettings = function (focusTime, breakTime) {
   }
 };
 ///////////////////////////////////////////////////////////////////////////////////
+//player
+const controlTogglePlayer = function () {
+  model.togglePlayer();
+};
+
+const controlChangeVolume = function (volume) {
+  model.changeVolume(volume);
+};
+
+const controlChangeSourceMusic = function (musicName) {
+  model.changeMusicSrc(musicName);
+};
+///////////////////////////////////////////////////////////////////////////////////
 const initApp = async function () {
   try {
     //checks if there is user and he is logged in
@@ -90,8 +114,12 @@ const initApp = async function () {
     ToDoView.clear();
     //rendering all tasks
     data.forEach((t) => ToDoView.renderTask(t));
+
+    //loading random quote
+    controlLoadQoute();
   } catch (err) {
     window.location.replace("./index.html");
+    console.error(err);
   }
 };
 TimerView.addHandlerStart(controlStartTimer);
@@ -103,4 +131,8 @@ ToDoView.addHandlerAddTask(controlAddTask);
 ToDoView.addHandlerToggleTask(controlToggleTask);
 ToDoView.addHandlerDeleteTask(controlDeleteTask);
 ToDoView.addHandlerSignOut(controlSignOut);
+
+MusicPlayerView.addHandlerTogglePlayer(controlTogglePlayer);
+MusicPlayerView.addHandlerChangeVolume(controlChangeVolume);
+MusicPlayerView.AddHandlerSwitch(controlChangeSourceMusic);
 initApp();

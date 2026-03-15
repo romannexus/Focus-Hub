@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
+import calmMP3 from "url:../../music/calm1.ogg";
+import rainMP3 from "url:../../music/rain.ogg";
+import forestMP3 from "url:../../music/forest.ogg";
+
 const supaURL = "https://jotxonvlmolsvzwdktuy.supabase.co";
 const supaPublic =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvdHhvbnZsbW9sc3Z6d2RrdHV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NDg3NDgsImV4cCI6MjA4NzUyNDc0OH0.D9n42ywZNoz-JOFv-gm8xFSYevML0xRsixoIOIxDJQI";
@@ -8,9 +12,19 @@ const supabase = createClient(supaURL, supaPublic, {
     multiTab: false,
   },
 });
+const soundFiles = {
+  calm: calmMP3,
+  rain: rainMP3,
+  forest: forestMP3,
+};
 
 export const state = {
   user: null,
+  player: {
+    audio: new Audio(),
+    isPlaying: false,
+    currentSound: "calm",
+  },
   timer: {
     timeLeft: 1500,
     focusDuration: 1500,
@@ -20,6 +34,17 @@ export const state = {
     intervalID: null,
   },
 };
+state.player.audio.volume = 0.5;
+
+// Додаємо хитрий хак для безшовного лупу:
+state.player.audio.addEventListener("timeupdate", function () {
+  // buffer - це запас часу (0.2 або 0.3 секунди)
+  const buffer = 0.35;
+  if (this.currentTime > this.duration - buffer) {
+    this.currentTime = 0; // Відмотуємо на початок ДО того, як настане тиша
+    this.play();
+  }
+});
 /////////////////////////////////////////////////////////////////////////
 //user
 export const loginUser = async function (userData) {
@@ -131,6 +156,7 @@ export const resetTimer = function () {
     isFocused: state.timer.isFocused,
   };
 };
+///////////////
 // modal
 export const updateSettings = function (focusTime, breakTime) {
   if (focusTime < 1 || focusTime > 90)
@@ -140,4 +166,44 @@ export const updateSettings = function (focusTime, breakTime) {
   state.timer.focusDuration = focusTime * 60;
   state.timer.breakDuration = breakTime * 60;
   return resetTimer();
+};
+
+// //////////////////////////////////////////////////////
+// quotes
+export const loadRandomQuote = async function () {
+  try {
+    const res = await fetch("https://dummyjson.com/quotes/random");
+    const data = await res.json();
+    // author : "Abdul Kalam"
+    // id: 104
+    // quote: "For 2,500 years, India has never invaded anybody."
+    return data.quote;
+  } catch (err) {
+    throw err;
+  }
+};
+//////////////////////////////////////////////////////////
+// player
+export const togglePlayer = function () {
+  if (state.player.isPlaying) {
+    state.player.audio.pause();
+    state.player.isPlaying = false;
+  } else {
+    if (!state.player.audio.src) {
+      state.player.audio.src = soundFiles[state.player.currentSound];
+      state.player.audio.loop = true;
+    }
+    state.player.audio.play();
+    state.player.isPlaying = true;
+  }
+};
+
+export const changeVolume = function (volume) {
+  state.player.audio.volume = volume / 100;
+};
+
+export const changeMusicSrc = function (musicName) {
+  state.player.currentSound = musicName;
+  state.player.audio.src = soundFiles[state.player.currentSound];
+  state.player.isPlaying = false;
 };

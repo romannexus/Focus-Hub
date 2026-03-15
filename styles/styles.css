@@ -34,3 +34,37 @@ body {
     @apply border-(--primary-blue) bg-(--bg-gray);
   }
 }
+.sound-btn-inactive {
+  @apply bg-white border border-gray-200 text-gray-500 hover:border-blue-300 hover:bg-blue-50/50;
+}
+
+.sound-btn-active {
+  @apply bg-blue-50 border border-blue-400 text-blue-700 shadow-sm;
+}
+
+.play-toggle-btn .icon-play,
+.play-toggle-btn .icon-pause {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Pause */
+.play-toggle-btn .icon-play {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+.play-toggle-btn .icon-pause {
+  transform: scale(0) rotate(-90deg);
+  opacity: 0;
+}
+
+/* is.playing from js */
+.play-toggle-btn.is-playing .icon-play {
+  transform: scale(0) rotate(90deg);
+  opacity: 0;
+}
+
+.play-toggle-btn.is-playing .icon-pause {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}

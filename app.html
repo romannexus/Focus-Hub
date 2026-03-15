@@ -31,10 +31,10 @@
         />
       </div>
 
-      <!-- Цитата дня -->
-      <div class="hidden md:block text-gray-500 italic text-[14px]">
-        "Focus on what matters. The rest can wait."
-      </div>
+      <div
+        id="quote-text"
+        class="hidden md:block text-gray-500 italic text-[14px]"
+      ></div>
 
       <!-- Exit button -->
       <div class="text-[14px]">
@@ -152,10 +152,12 @@
             <!-- Mini Player -->
             <div class="flex items-center gap-4">
               <button
-                class="p-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-[10px] transition-colors cursor-pointer border border-blue-100"
+                id="player--btn-play"
+                class="play-toggle-btn relative flex items-center justify-center w-10 h-10 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-[10px] transition-colors cursor-pointer border border-blue-100 overflow-hidden"
               >
                 <svg
-                  class="w-5 h-5 ml-0.5"
+                  id="icon-play"
+                  class="icon-play absolute w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -165,8 +167,22 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
+
+                <svg
+                  id="icon-pause"
+                  class="icon-pause absolute w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
               </button>
               <input
+                id="player--btn-volume"
                 type="range"
                 min="0"
                 max="100"
@@ -177,40 +193,40 @@
           </div>
 
           <!-- Sound Buttons -->
-          <div class="grid grid-cols-3 gap-4">
-            <!-- Inactive -->
+          <div id="player--btns" class="grid grid-cols-3 gap-4">
             <button
-              class="flex flex-col items-center justify-center p-4 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-[10px] transition-all cursor-pointer group"
+              data-sound="rain"
+              class="js-sound-btn sound-btn-inactive flex flex-col items-center justify-center p-4 rounded-[10px] transition-all cursor-pointer group"
             >
               <span
                 class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
                 >🌧️</span
               >
-              <span
-                class="text-[14px] font-bold text-gray-500 group-hover:text-blue-600"
+              <span class="text-[14px] font-bold group-hover:text-blue-600"
                 >Rain</span
               >
             </button>
-            <!-- Active (Cafe) -->
+
             <button
-              class="flex flex-col items-center justify-center p-4 bg-blue-50 border border-blue-400 rounded-[10px] transition-all cursor-pointer group shadow-sm"
+              data-sound="calm"
+              class="js-sound-btn sound-btn-active flex flex-col items-center justify-center p-4 rounded-[10px] transition-all cursor-pointer group"
             >
               <span
                 class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
-                >☕</span
+                >💤</span
               >
-              <span class="text-[14px] font-bold text-blue-700">Cafe</span>
+              <span class="text-[14px] font-bold">Calm</span>
             </button>
-            <!-- Inactive -->
+
             <button
-              class="flex flex-col items-center justify-center p-4 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 rounded-[10px] transition-all cursor-pointer group"
+              data-sound="forest"
+              class="js-sound-btn sound-btn-inactive flex flex-col items-center justify-center p-4 rounded-[10px] transition-all cursor-pointer group"
             >
               <span
                 class="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300"
                 >🌲</span
               >
-              <span
-                class="text-[14px] font-bold text-gray-500 group-hover:text-blue-600"
+              <span class="text-[14px] font-bold group-hover:text-blue-600"
                 >Forest</span
               >
             </button>
