@@ -1,7 +1,10 @@
 "use strict";
 
-class QuotesView {
+import View from "./View.js";
+
+class QuotesView extends View {
   constructor() {
+    super();
     this._quoteText = document.getElementById("quote-text");
   }
   renderQuote(text) {

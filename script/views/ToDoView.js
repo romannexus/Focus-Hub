@@ -1,12 +1,13 @@
 "use strict";
 
-class ToDoView {
+import View from "./View.js";
+
+class ToDoView extends View {
   constructor() {
+    super();
     this._addBtn = document.getElementById("todo--btn-add");
     this._addText = document.getElementById("todo--task-text");
     this._taskList = document.getElementById("todo--list");
-    this._signOutBtn = document.getElementById("btn-sign-out");
-
     this._dateFormatter = new Intl.DateTimeFormat(
       new Intl.Locale(navigator.language),
       {
@@ -17,19 +18,9 @@ class ToDoView {
         minute: "2-digit",
       },
     );
-
-    this.addHandlerDeleteTask();
   }
-  addHandlerToggleTask(handler) {
-    this._taskList.addEventListener("change", (e) => {
-      const checkbox = e.target.closest('input[type="checkbox"]');
-      //guard
-      if (!checkbox) return;
-      const isCompleted = checkbox.checked;
-      const liID = e.target.closest("li").dataset.id;
-
-      handler(liID, isCompleted);
-    });
+  clear() {
+    this._taskList.innerHTML = " ";
   }
   addHandlerAddTask(handler) {
     this._addBtn.addEventListener("click", (e) => {
@@ -40,6 +31,17 @@ class ToDoView {
 
       handler(text);
       this._addText.value = "";
+    });
+  }
+  addHandlerToggleTask(handler) {
+    this._taskList.addEventListener("change", (e) => {
+      const checkbox = e.target.closest('input[type="checkbox"]');
+      //guard
+      if (!checkbox) return;
+      const isCompleted = checkbox.checked;
+      const liID = e.target.closest("li").dataset.id;
+
+      handler(liID, isCompleted);
     });
   }
   addHandlerDeleteTask(handler) {
@@ -60,13 +62,10 @@ class ToDoView {
       }, 300);
     });
   }
-  addHandlerSignOut(handler) {
-    this._signOutBtn.addEventListener("click", () => {
-      handler();
-    });
-  }
-
   renderTask(newTask) {
+    const emptyState = document.getElementById("empty-state");
+    if (emptyState) emptyState.remove();
+
     const html = `
             <li
               data-id="${newTask.id}"
@@ -111,9 +110,6 @@ class ToDoView {
             </li>`;
     this._taskList.insertAdjacentHTML("afterbegin", html);
   }
-  clear() {
-    this._taskList.innerHTML = " ";
-  }
   renderSpinner() {
     const html = `
       <div class="flex justify-center items-center p-8 w-full">
@@ -122,6 +118,17 @@ class ToDoView {
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       </div>`;
+    this.clear();
+    this._taskList.insertAdjacentHTML("afterbegin", html);
+  }
+  renderEmptyState() {
+    const html = `
+      <li id="empty-state" class="flex flex-col items-center justify-center py-10 text-gray-400 text-center border-2 border-dashed border-gray-200 rounded-[10px] bg-gray-50">
+        <span class="text-4xl mb-3">📭</span>
+        <p class="text-[16px] font-bold text-gray-500">List is empty</p>
+        <p class="text-xs mt-1">Time to focus on your goals!</p>
+      </li>
+    `;
     this.clear();
     this._taskList.insertAdjacentHTML("afterbegin", html);
   }

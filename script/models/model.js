@@ -1,25 +1,23 @@
 import { createClient } from "@supabase/supabase-js";
 
-import calmMP3 from "url:../../music/calm1.ogg";
-import rainMP3 from "url:../../music/rain.ogg";
-import forestMP3 from "url:../../music/forest.ogg";
+const supaURL = process.env.SUPABASE_URL;
+const supaPublic = process.env.SUPABASE_KEY;
 
-const supaURL = "https://jotxonvlmolsvzwdktuy.supabase.co";
-const supaPublic =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvdHhvbnZsbW9sc3Z6d2RrdHV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NDg3NDgsImV4cCI6MjA4NzUyNDc0OH0.D9n42ywZNoz-JOFv-gm8xFSYevML0xRsixoIOIxDJQI";
 const supabase = createClient(supaURL, supaPublic, {
   auth: {
     multiTab: false,
   },
 });
 const soundFiles = {
-  calm: calmMP3,
-  rain: rainMP3,
-  forest: forestMP3,
+  calm: "https://jotxonvlmolsvzwdktuy.supabase.co/storage/v1/object/public/sounds/calm1.ogg",
+  rain: "https://jotxonvlmolsvzwdktuy.supabase.co/storage/v1/object/public/sounds/rain.ogg",
+  forest:
+    "https://jotxonvlmolsvzwdktuy.supabase.co/storage/v1/object/public/sounds/forest.ogg",
 };
 
 export const state = {
   user: null,
+  tasks: [],
   player: {
     audio: new Audio(),
     isPlaying: false,
@@ -32,6 +30,9 @@ export const state = {
     isRunning: false,
     isFocused: true,
     intervalID: null,
+  },
+  stats: {
+    timeInFocus: 0,
   },
 };
 state.player.audio.volume = 0.5;
@@ -88,11 +89,28 @@ export const checkUserAuth = async function () {
 
   state.user = data.user;
 };
+// //////////////////////////////////////////////////////
+// quotes
+export const loadRandomQuote = async function () {
+  try {
+    const res = await fetch("https://dummyjson.com/quotes/random");
+    const data = await res.json();
+    // author : "Abdul Kalam"
+    // id: 104
+    // quote: "For 2,500 years, India has never invaded anybody."
+    return data.quote;
+  } catch (err) {
+    throw err;
+  }
+};
 /////////////////////////////////////////////////////////////////////////////////////
 //TO-DO list
 export const loadTasks = async function () {
-  const { data, error } = await supabase.from("tasks").select("*");
-
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("*")
+    .order("created_at");
+  state.tasks = data;
   if (error) throw error;
   return data;
 };
@@ -105,6 +123,8 @@ export const uploadTask = async function (taskText) {
     .single();
 
   if (error) throw error;
+
+  state.tasks.unshift(data);
   return data;
 };
 
@@ -115,17 +135,23 @@ export const updateTaskStatus = async function (id, isCompleted) {
     .eq("id", id);
 
   if (error) throw error;
+  const task = state.tasks.find((t) => String(t.id) === String(id));
+  if (task) task.is_completed = isCompleted;
 };
 
-export const deleteTask = async function (id) {
-  const { error } = await supabase.from("tasks").delete().eq("id", id);
-
+export const deleteTask = async function (idToDelete) {
+  const { error } = await supabase.from("tasks").delete().eq("id", idToDelete);
   if (error) throw error;
+
+  state.tasks = state.tasks.filter(
+    (task) => String(task.id) !== String(idToDelete),
+  );
+  return state.tasks.length;
 };
 ///////////////////////////////////////////////////////////////////////
 //Pomodoro Timer
 export const startTimer = function (tickCallBack, endCallBack) {
-  if (state.timer.isRunning) return;
+  if (state.timer.isRunning) return false;
   state.timer.isRunning = true;
 
   state.timer.intervalID = setInterval(() => {
@@ -142,10 +168,13 @@ export const startTimer = function (tickCallBack, endCallBack) {
       endCallBack(state.timer.timeLeft, state.timer.isFocused);
     }
   }, 1000);
+  return true;
 };
 export const pauseTimer = function () {
+  if (!state.timer.isRunning) return false;
   clearInterval(state.timer.intervalID);
   state.timer.isRunning = false;
+  return true;
 };
 export const resetTimer = function () {
   pauseTimer();
@@ -156,7 +185,7 @@ export const resetTimer = function () {
     isFocused: state.timer.isFocused,
   };
 };
-///////////////
+///////////////////////////////
 // modal
 export const updateSettings = function (focusTime, breakTime) {
   if (focusTime < 1 || focusTime > 90)
@@ -166,21 +195,6 @@ export const updateSettings = function (focusTime, breakTime) {
   state.timer.focusDuration = focusTime * 60;
   state.timer.breakDuration = breakTime * 60;
   return resetTimer();
-};
-
-// //////////////////////////////////////////////////////
-// quotes
-export const loadRandomQuote = async function () {
-  try {
-    const res = await fetch("https://dummyjson.com/quotes/random");
-    const data = await res.json();
-    // author : "Abdul Kalam"
-    // id: 104
-    // quote: "For 2,500 years, India has never invaded anybody."
-    return data.quote;
-  } catch (err) {
-    throw err;
-  }
 };
 //////////////////////////////////////////////////////////
 // player
@@ -206,4 +220,18 @@ export const changeMusicSrc = function (musicName) {
   state.player.currentSound = musicName;
   state.player.audio.src = soundFiles[state.player.currentSound];
   state.player.isPlaying = false;
+};
+//////////////////////////////////////////////////////////
+//statistics
+export const calcTasksNum = function () {
+  let completedTasks = state.tasks.filter(
+    (task) => task.is_completed === true,
+  ).length;
+  let allTasks = state.tasks.length;
+  return [allTasks, completedTasks];
+};
+
+export const addTimeInFocus = function () {
+  state.stats.timeInFocus += state.timer.focusDuration;
+  return state.stats.timeInFocus;
 };

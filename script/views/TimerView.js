@@ -1,9 +1,10 @@
 "use strict";
 
-// import View from "./View.js";
+import View from "./View.js";
 
-class TimerView {
+class TimerView extends View {
   constructor() {
+    super();
     this._timerSection = document.getElementById("timer--section");
     this._timerName = document.getElementById("timer--name");
     this._timeValue = document.getElementById("timer--time-value");
@@ -15,8 +16,6 @@ class TimerView {
     this._modal = document.getElementById("modal");
     this._backdrop = document.getElementById("modal-backdrop");
 
-    this._errTxt = document.getElementById("modal--error-text");
-
     this._btnCancel = document.getElementById("modal--btn-cancel");
     this._btnSave = document.getElementById("modal--btn-save");
 
@@ -26,6 +25,19 @@ class TimerView {
     this._btnSettings.addEventListener("click", this._toggleModal.bind(this));
     this._btnCancel.addEventListener("click", this._toggleModal.bind(this));
     this._backdrop.addEventListener("click", this._toggleModal.bind(this));
+  }
+  _toggleModal() {
+    this._modal.classList.toggle("hidden");
+  }
+  updateTimerText(value) {
+    this._timeValue.textContent = value;
+  }
+  _switchBtnsStyle() {
+    this._btnStart.classList.toggle("timer-btn-inactive");
+    this._btnStart.classList.toggle("timer-btn-active");
+
+    this._btnPause.classList.toggle("timer-btn-inactive");
+    this._btnPause.classList.toggle("timer-btn-active");
   }
   switchModeUI(isFocused) {
     this._timerSection.classList.toggle("bg-white", isFocused);
@@ -38,35 +50,27 @@ class TimerView {
 
     return `${minutes}:${seconds}`;
   }
-  updateTimerText(value) {
-    this._timeValue.textContent = value;
-  }
   addHandlerStart(handler) {
     this._btnStart.addEventListener("click", () => {
-      handler();
+      if (handler()) this._switchBtnsStyle();
     });
   }
   addHandlerPause(handler) {
     this._btnPause.addEventListener("click", () => {
-      handler();
+      if (handler()) this._switchBtnsStyle();
     });
   }
   addHandlerReset(handler) {
     this._btnReset.addEventListener("click", () => {
       handler();
+      this._btnStart.classList.remove("timer-btn-inactive");
+      this._btnStart.classList.add("timer-btn-active");
+
+      this._btnPause.classList.add("timer-btn-inactive");
+      this._btnPause.classList.remove("timer-btn-active");
     });
   }
   // modal window
-  renderErrTxt(err) {
-    this._errTxt.classList.remove("hidden");
-    this._errTxt.textContent = err;
-  }
-  removeErrTxt() {
-    this._errTxt.classList.add("hidden");
-  }
-  _toggleModal() {
-    this._modal.classList.toggle("hidden");
-  }
   addHandlerSaveSettings(handler) {
     this._btnSave.addEventListener("click", () => {
       const focusTime = +this._inptFocusTime.value;

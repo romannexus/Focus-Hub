@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- prettier-ignore -->
     <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
 
     <script type="module" src="./script/app.js" defer></script>
   </head>
@@ -105,13 +105,13 @@
           <div class="flex items-center gap-3">
             <button
               id="timer--btn-start"
-              class="text-white bg-blue-600 border-none font-bold hover:bg-blue-800 cursor-pointer px-10 py-3.5 rounded-[10px] text-[16px] transition-colors shadow-sm"
+              class="timer-btn-active border-none font-bold cursor-pointer px-10 py-3.5 rounded-[10px] text-[16px] transition-colors"
             >
               Start
             </button>
             <button
               id="timer--btn-pause"
-              class="text-gray-700 bg-gray-100 border-none font-bold hover:bg-gray-200 cursor-pointer px-8 py-3.5 rounded-[10px] text-[16px] transition-colors"
+              class="timer-btn-inactive border-none font-bold cursor-pointer px-8 py-3.5 rounded-[10px] text-[16px] transition-colors"
             >
               Pause
             </button>
@@ -241,27 +241,16 @@
             <h3 class="text-gray-500 text-[14px] font-bold mb-1">
               Completed Tasks
             </h3>
-            <div
-              class="text-4xl font-bold font-condensed text-gray-900 flex items-baseline gap-2"
-            >
-              5
+            <div class="flex items-baseline gap-2">
               <span
-                class="text-[14px] font-normal font-sans text-green-600 flex items-center gap-0.5"
-                ><svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 10l7-7m0 0l7 7m-7-7v18"
-                  ></path>
-                </svg>
-                2</span
+                id="stat--completed-tasks"
+                class="text-4xl font-bold font-condensed text-gray-900"
               >
+                ?
+              </span>
+              <span class="text-xl font-bold font-condensed text-gray-400">
+                / <span id="stat--total-tasks">?</span>
+              </span>
             </div>
           </section>
           <section
@@ -270,8 +259,11 @@
             <h3 class="text-gray-500 text-[14px] font-bold mb-1">
               Time in Focus
             </h3>
-            <div class="text-4xl font-bold font-condensed text-gray-900">
-              2 hrs
+            <div
+              id="stat--time-in-focus"
+              class="text-4xl font-bold font-condensed text-gray-900"
+            >
+              0
             </div>
           </section>
         </div>
@@ -328,12 +320,6 @@
         >
           Timer Settings
         </h2>
-        <p
-          id="modal--error-text"
-          class="text-red-700 text-sm font-bold text-center mb-2 hidden"
-        >
-          kiko
-        </p>
         <div class="flex flex-col gap-5 mb-8">
           <div class="flex items-center justify-between">
             <label class="text-[16px] font-bold text-gray-600"
@@ -379,6 +365,15 @@
           </button>
         </div>
       </div>
+    </div>
+    <div
+      id="global-error-toast"
+      class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-[10px] shadow-lg flex items-center gap-3 pointer-events-none"
+    >
+      <span class="text-xl">🚨</span>
+      <p id="global-error-text" class="font-bold text-[14px] m-0">
+        Something went wrong!
+      </p>
     </div>
   </body>
 </html>

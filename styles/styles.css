@@ -34,6 +34,14 @@ body {
     @apply border-(--primary-blue) bg-(--bg-gray);
   }
 }
+.timer-btn-active {
+  @apply bg-blue-600 text-white shadow-sm hover:bg-blue-800;
+}
+
+.timer-btn-inactive {
+  @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+}
+
 .sound-btn-inactive {
   @apply bg-white border border-gray-200 text-gray-500 hover:border-blue-300 hover:bg-blue-50/50;
 }
