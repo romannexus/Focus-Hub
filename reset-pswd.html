@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Hub | Update Password</title>
+
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./img/favicon.png" />
+
+    <script type="module" src="./script/reset-pswd.js" defer></script>
+  </head>
+  <body class="m-0 h-screen flex justify-center items-center">
+    <section
+      class="flex flex-col items-center justify-center min-w-96 py-10 px-5 bg-white rounded-[20px] shadow-[0_0_5px_var(--white)]"
+    >
+      <div class="auth-image">
+        <img
+          src="/img/focus-hub-high-resolution-logo-grayscale-transparent.png"
+          alt="Website logo"
+          width="200"
+        />
+      </div>
+
+      <h1 class="text-xl mt-5 mb-1.5 font-bold">Set new password</h1>
+      <p class="text-[14px] text-gray-500 mb-5 text-center max-w-72">
+        Please enter your new password below. Make sure it's at least 6
+        characters long.
+      </p>
+
+      <div
+        id="error-div"
+        class="hidden min-w-72 bg-red-200 border border-red-400 rounded-[10px] text-[14px] text-red-900 p-1.5 mb-2"
+      >
+        <p id="err-text" class="text-center">Some error text</p>
+      </div>
+
+      <form
+        id="update_password_form"
+        method="post"
+        class="flex flex-col justify-center min-w-72"
+      >
+        <input
+          id="new_password"
+          class="input mb-3"
+          type="password"
+          name="password"
+          placeholder="New password"
+          required
+          minlength="6"
+        />
+
+        <input
+          id="confirm_password"
+          class="input mb-5"
+          type="password"
+          name="confirm_password"
+          placeholder="Confirm new password"
+          required
+          minlength="6"
+        />
+
+        <input
+          class="text-white bg-(--primary-blue) border-none font-bold hover:bg-(--dark-blue) cursor-pointer py-2.5 rounded-[10px] transition-colors"
+          type="submit"
+          value="Save Password"
+        />
+      </form>
+    </section>
+  </body>
+</html>

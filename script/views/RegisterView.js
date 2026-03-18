@@ -48,7 +48,6 @@ class RegisterView extends View {
         this._password.value !== this._password_repeat.value &&
         this._password.value.trim() !== ""
       ) {
-        console.error("Password dont match !");
         this._password.classList.add("border-red-400");
         this._password_repeat.classList.add("border-red-400");
         this.renderError("Password dont match !");

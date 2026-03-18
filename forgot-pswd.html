@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Hub | Reset Password</title>
+
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" href="./img/favicon.png" />
+
+    <script type="module" src="./script/forgot-pswd.js" defer></script>
+  </head>
+  <body class="m-0 h-screen flex justify-center items-center">
+    <section
+      class="flex flex-col items-center justify-center min-w-96 py-10 px-5 bg-white rounded-[20px] shadow-[0_0_5px_var(--white)]"
+    >
+      <div class="auth-image">
+        <img
+          src="/img/focus-hub-high-resolution-logo-grayscale-transparent.png"
+          alt="Website logo"
+          width="200"
+          class=""
+        />
+      </div>
+
+      <h1 class="text-xl mt-5 mb-1.5 font-bold">Reset your password</h1>
+      <p class="text-[14px] text-gray-500 mb-5 text-center max-w-72">
+        Enter your email address and we'll send you a link to reset your
+        password.
+      </p>
+
+      <div
+        id="error-div"
+        class="hidden min-w-72 bg-red-200 border border-red-400 rounded-[10px] text-[14px] text-red-900 p-1.5 mb-2"
+      >
+        <p id="err-text" class="text-center">Some error text</p>
+      </div>
+
+      <div
+        id="success-div"
+        class="hidden min-w-72 bg-green-100 border border-green-400 rounded-[10px] text-[14px] text-green-800 p-2 mb-4 text-center"
+      >
+        <p>Check your email for the reset link!</p>
+      </div>
+
+      <form
+        id="reset_form"
+        method="post"
+        class="flex flex-col justify-center min-w-72"
+      >
+        <input
+          id="email_input"
+          class="input mb-4"
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <input
+          class="text-white bg-(--primary-blue) border-none font-bold hover:bg-(--dark-blue) cursor-pointer py-2.5 rounded-[10px] transition-colors"
+          type="submit"
+          value="Send reset link"
+        />
+      </form>
+
+      <section class="mt-3 text-[14px]">
+        <a
+          class="text-(--primary-blue) visited:text-(--dark-blue) hover:underline font-bold flex items-center justify-center gap-1"
+          href="./index.html"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          Back to login
+        </a>
+      </section>
+    </section>
+  </body>
+</html>

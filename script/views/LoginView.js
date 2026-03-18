@@ -16,13 +16,22 @@ class LoginView extends View {
       e.preventDefault();
       let hasErr = false;
 
+      let errorMessage = "Check data validation!";
+
       this._allInp.forEach((inp) => {
         if (!inp.validity.valid) {
           inp.classList.add("border-red-400");
           hasErr = true;
+          errorMessage = inp.validationMessage;
+        } else {
+          inp.classList.remove("border-red-400");
         }
       });
-      if (hasErr) return;
+
+      if (hasErr) {
+        this.renderError(errorMessage);
+        return;
+      }
 
       const formData = new FormData(this._loginForm);
       const user = Object.fromEntries(formData);

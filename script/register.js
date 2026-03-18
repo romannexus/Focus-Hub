@@ -15,7 +15,6 @@ const controlRegistration = async function (newUserData) {
 
 const init = function () {
   RegisterView.addHandlerSubmit(controlRegistration);
-  // console.log("RADOANDOIANDIUONAD");
 };
 
 init();

@@ -2,8 +2,8 @@
   "name": "client",
   "version": "1.0.0",
   "scripts": {
-    "start": "parcel index.html register.html app.html --no-source-maps",
-    "build": "parcel build index.html register.html app.html --no-source-maps"
+    "start": "parcel index.html register.html forgot-pswd.html reset-pswd.html app.html --no-source-maps",
+    "build": "parcel build index.html register.html forgot-pswd.html reset-pswd.html app.html --no-source-maps"
   },
   "keywords": [],
   "author": "",

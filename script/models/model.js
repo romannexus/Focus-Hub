@@ -69,10 +69,33 @@ export const registerUser = async function (userData) {
         last_name: userData.last_name,
         birth_day: userData.bday,
       },
-      // emailRedirectTo: "https://localhost",
     },
   });
   if (error) throw error;
+  return data;
+};
+
+export const forgotPassword = async function (email) {
+  const redirectUrl = `${window.location.origin}/reset-pswd.html`;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: redirectUrl,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateNewPassword = async function (newPassword) {
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) throw error;
+
+  await supabase.auth.signOut();
+  state.user = null;
+
   return data;
 };
 
